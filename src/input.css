@@ -1,0 +1,236 @@
+@import "tailwindcss";
+@import "../public/css/footer.css";
+@import "../public/css/services.css";
+@import "../public/css/shapes.css";
+
+
+/* 🎨 Theme (اختياري لو عندك ألوان ثابتة) */
+@theme {
+    --color-bg-start: #0d1b2a;
+    --color-bg-end: #000000;
+
+    --scrollbar-width: 0px;
+}
+
+/* 🔹 Base styles */
+@layer base {
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Inter", sans-serif;
+        background: radial-gradient(ellipse at bottom, var(--color-bg-start) 0%, var(--color-bg-end) 100%);
+
+        @apply min-h-screen text-white overflow-x-hidden;
+    }
+}
+
+
+
+/* 🔹 Components */
+@layer components {
+
+    .background-canvas {
+        @apply fixed inset-0 w-full h-full z-0;
+        /* tailwind معندوش z-0 تحت inset */
+    }
+
+    .content-wrapper {
+        @apply relative z-10 w-full h-full;
+        @apply overflow-y-auto overflow-x-hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    header.fixed {
+        @apply fixed top-0 left-0 right-0 z-50 transition-all;
+        right: var(--scrollbar-width);
+        /* 👈 Tailwind مش بيدعمها كـ utility */
+    }
+
+    .galaxy-bg {
+        @apply fixed inset-0 z-[-4];
+        background: radial-gradient(ellipse at center,
+                #0a0a1a 0%,
+                #050813 50%,
+                #000 100%);
+    }
+
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.05);
+        @apply border border-white/10;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .box input:focus {
+        border-color: #4285f4;
+        box-shadow: 0 0 3px rgba(66, 133, 244, .5);
+    }
+
+
+    #list {
+        margin: 1.5rem 0rem;
+        position: absolute;
+        top: 60%;
+        left: 0;
+        width: 100%;
+        border: 1px solid #4285f4;
+        border-radius: 0.5rem;
+        background-color: #131C2B;
+        display: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 6px rgba(66, 133, 244, .5);
+    }
+
+
+    #list li {
+        list-style: none;
+        padding: .7rem 1rem;
+        font-size: 16px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #list li:hover {
+        background-color: #4285f4;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    #list.show {
+        display: block;
+    }
+
+    .highlight {
+        background-color: #4285f4;
+        color: white;
+    }
+
+
+
+    /* End Components */
+}
+
+
+/* 🔹 Utilities */
+@layer utilities {
+    #stars-bg {
+        @apply z-[-3];
+    }
+
+    #plexus-bg {
+        @apply z-[-2];
+    }
+
+    /* Animated stars */
+    .stars {
+        @apply absolute inset-0 w-full h-full;
+        background-image:
+            radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.8), transparent),
+            radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.6), transparent),
+            radial-gradient(2px 2px at 160px 30px, #ffffff, transparent),
+            radial-gradient(1px 1px at 200px 90px, rgba(255, 255, 255, 0.8), transparent),
+            radial-gradient(2px 2px at 240px 20px, #ffffff, transparent),
+            radial-gradient(1px 1px at 280px 60px, rgba(255, 255, 255, 0.7), transparent),
+            radial-gradient(1px 1px at 320px 100px, #ffffff, transparent),
+            radial-gradient(2px 2px at 360px 40px, rgba(255, 255, 255, 0.9), transparent);
+        background-repeat: repeat;
+        background-size: 400px 400px;
+        animation: twinkle 20s linear infinite;
+    }
+
+    @keyframes twinkle {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes float1 {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes float2 {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    @keyframes float3 {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+    }
+
+
+
+
+    /* End  Utilities */
+}
+
+/* end */

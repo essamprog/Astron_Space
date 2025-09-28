@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph</title>
+
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="mySidenav" class="sidenav">
+        <div class="sidenav-header">
+            <span class="sidenav-logo">AstroNile</span>
+            <a href="javascript:void(0)" class="close-btn" id="closeNavBtn">&times;</a>
+        </div>
+        <ul class="sidenav-links">
+            <li><a href="/index.html" class="active"><i class="bx bx-home"></i>Home</a></li>
+            <li><a href="../dashboard/dashboard.html"><i class='bx bxs-dashboard'></i>DashBoard</a></li>
+            <li><a href="../knowledge_graph_pro/knowledge_g.html"><i class='bx bxl-graphql'></i>Knowledge Graph</a></li>
+            <li><a href="../astro_agent/agentai.html"><i class='bx bxs-brain'></i>Astro AI Pro</a></li>
+            <li><a href="/index.html#Services"><i class='bx bx-cog'></i>Services</a></li>
+        </ul>
+        <div class="logout-section">
+            <button class="logout-btn"><i class="fas fa-sign-out-alt"></i>Logout</button>
+        </div>
+    </div>
+
+
+    <header class="header">
+        <div class="header-container">
+            <a href="/index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-rocket"></i></div>
+                <span class="logo-text">AstroNile</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="../dashboard/dashboard.html">DashBoard</a></li>
+                <li><a href="../knowledge_graph_pro/knowledge_g.html">Knowledge Graph</a></li>
+                <li><a href="../astro_agent/agentai.html">Astron AI Pro</a></li>
+                <li><a href="/index.html#Services">Services</a></li>
+            </ul>
+
+            <a href="#" class="login-btn">Log In</a>
+
+            <button class="hamburger-menu" id="openNavBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+        </div>
+    </header>
+
+    <div id="knowledge-graph"></div>
+
+    <div id="sidebar" class="hidden">
+        <button id="close-sidebar">×</button>
+        <h3 id="sidebar-title">Related research:</h3>
+        <ul id="paper-list"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

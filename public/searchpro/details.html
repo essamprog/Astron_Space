@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تفاصيل البحث</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+
+    <style>
+        /* CSS مشترك من الصفحة الرئيسية */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f2a44 50%, #0a1929 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .header {
+            background: rgba(30, 58, 95, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #ffffff, #e5e5e5);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-15deg);
+        }
+
+        .logo-icon i {
+            color: #1e3a5f;
+            font-size: 1.2rem;
+            transform: rotate(15deg);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* ✨ CSS الجديد للهيدر والقائمة ✨ */
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .login-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .hamburger-menu {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        /* ✨ CSS الجديد لصفحة التفاصيل ✨ */
+        .main-content {
+            display: flex;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            gap: 40px;
+            flex-grow: 1;
+        }
+
+        .research-details {
+            flex: 3;
+            /* مساحة المحتوى */
+            border-left: 3px solid #4CAF50;
+            padding-left: 30px;
+        }
+
+        .sidebar {
+            flex: 1;
+            /* مساحة الشريط الجانبي */
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
+        }
+
+        #research-title {
+            font-size: 28px;
+            line-height: 1.4;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        #research-field {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #4CAF50;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .section hr {
+            border: none;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.15);
+            margin: 8px 0 15px 0;
+        }
+
+        .section p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: justify;
+            padding-right: 10px;
+        }
+
+
+        .sidebar .button {
+            display: block;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+            padding: 12px 0px;
+            border-radius: 25px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            width: 8rem;
+        }
+
+        .sidebar .button:hover {
+            background: rgba(76, 175, 80, 0.3);
+            color: #5dc961;
+        }
+
+        .sidebar .button i {
+            margin-left: 8px;
+        }
+
+        /* ✨ كود الـ Footer الجديد ✨ */
+        .site-footer {
+            text-align: center;
+            padding: 25px 20px;
+            margin-top: auto;
+            background-color: #0a1929;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .site-footer p {
+            margin: 0;
+            padding: 4px 0;
+        }
+
+        .site-footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ✨ CSS القائمة الجانبية للهاتف ✨ */
+        .sidenav {
+            height: 100%;
+            width: 280px;
+            position: fixed;
+            z-index: 200;
+            top: 0;
+            right: -280px;
+            background-color: rgba(0, 45, 56, 0.3);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: hidden;
+            transition: right 0.4s ease;
+            padding-top: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidenav.open {
+            right: 0;
+        }
+
+        .sidenav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 25px;
+            margin-bottom: 20px;
+        }
+
+        .sidenav-logo {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            font-size: 2rem;
+            color: #8a91b4;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        .sidenav-links {
+            list-style: none;
+            padding: 0 15px;
+            flex-grow: 1;
+        }
+
+        .sidenav-links li a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 1rem;
+            color: #a8b0d3;
+            display: flex;
+            align-items: center;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidenav-links li a i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidenav-links li a:hover,
+        .sidenav-links li a.active {
+            background-color: #3b426e;
+            color: #ffffff;
+        }
+
+        .logout-section {
+            padding: 20px;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            background-color: #fff;
+            color: #272c4a;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .logout-btn i {
+            margin-right: 10px;
+        }
+
+        /* ✨ كود التوافق مع الشاشات الصغيرة (الهواتف) ✨ */
+        @media (max-width: 992px) {
+
+            .nav-links,
+            .login-btn {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                gap: 20px;
+                padding: 0 15px;
+                margin-top: 20px;
+            }
+
+            .sidebar {
+                position: static;
+                order: -1;
+                margin-bottom: 20px;
+            }
+
+            .sidebar .button {
+                width: 100%;
+            }
+
+            .research-details {
+                padding-left: 15px;
+            }
+
+            #research-title {
+                font-size: 22px;
+            }
+
+            .sidebar .button {
+                width: 8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mySidenav" class="sidenav">
+        <div class="sidenav-header">
+            <span class="sidenav-logo">AstroNile</span>
+            <a href="javascript:void(0)" class="close-btn" id="closeNavBtn">&times;</a>
+        </div>
+        <ul class="sidenav-links">
+            <li><a href="#Home" class="active"><i class="bx bx-home"></i>Home</a></li>
+            <li><a href="../dashboard/dashboard.html"><i class='bx bxs-dashboard'></i>DashBoard</a></li>
+            <li><a href="../knowledge_graph_pro/knowledge_g.html"><i class='bx bxl-graphql'></i>Knowledge Graph</a></li>
+            <li><a href="../astro_agent/agentai.html"><i class='bx bxs-brain'></i>Astro AI Pro</a></li>
+        </ul>
+        <div class="logout-section">
+            <button class="logout-btn"><i class="fas fa-sign-out-alt"></i>Logout</button>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="pagsearch.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-rocket"></i></div>
+                <span class="logo-text">AstroNile</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="../dashboard/dashboard.html">DashBoard</a></li>
+                <li><a href="../knowledge_graph_pro/knowledge_g.html">Knowledge Graph</a></li>
+                <li><a href="../astro_agent/agentai.html">Astro AI Pro</a></li>
+                <li><a href="/index.html#Services">Services</a></li>
+            </ul>
+
+            <a href="#" class="login-btn">Log In</a>
+
+            <button class="hamburger-menu" id="openNavBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="research-details">
+            <h1 id="research-title">Loading...</h1>
+            <div id="research-field"></div>
+
+            <div class="section">
+                <h2>Abstract</h2>
+                <hr>
+                <p id="research-abstract"></p>
+            </div>
+
+            <div class="section">
+                <h2>Results</h2>
+                <hr>
+                <p id="research-results"></p>
+            </div>
+
+            <div class="section">
+                <h2>Conclusion</h2>
+                <hr>
+                <p id="research-conclusion"></p>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <a id="original-link-sidebar" href="#" target="_blank" class="button">
+                View Source <i class="fas fa-external-link-alt"></i>
+            </a>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <p><a href="mailto:contact@astronile.com">Contact Us</a></p>
+        <p>&copy; 2025 AstroNile. All Rights Reserved.</p>
+    </footer>
+
+    <script src="details.js"></script>
+    <script>
+        // ✨ جافاسكريبت جديد لتشغيل القائمة الجانبية ✨
+        const openNavBtn = document.getElementById('openNavBtn');
+        const closeNavBtn = document.getElementById('closeNavBtn');
+        const sidenav = document.getElementById('mySidenav');
+
+        openNavBtn.addEventListener('click', () => {
+            sidenav.classList.add('open');
+        });
+
+        closeNavBtn.addEventListener('click', () => {
+            sidenav.classList.remove('open');
+        });
+    </script>
+</body>
+
+</html>

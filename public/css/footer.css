@@ -1,0 +1,201 @@
+@layer components {
+
+  /* Footer Wrapper */
+  .spaceres-footer {
+    @apply relative w-full overflow-hidden text-white bg-gradient-to-br from-[#0a0a0a] via-[#1a0f2e] to-[#0a0a0a] pt-16 pb-5;
+  }
+
+  .spaceres-footer::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent;
+  }
+
+  .footer-container {
+    @apply max-w-[1200px] mx-auto px-5 grid grid-cols-[2fr_1fr_1fr_1.5fr] gap-10 items-start;
+  }
+
+  /* Logo Section */
+  .logo-section {
+    @apply flex flex-col gap-6;
+  }
+
+  .logo-container {
+    @apply flex items-center gap-4 mb-4;
+  }
+
+  .logo-icon {
+    @apply w-11 h-11 flex items-center justify-center rounded-xl bg-gradient-to-br from-white to-neutral-200 -rotate-[15deg];
+  }
+
+  .logo-icon i {
+    @apply text-[1.5rem] text-black rotate-[15deg];
+  }
+
+  .logo-text {
+    @apply text-2xl font-semibold tracking-wide;
+  }
+
+  .logo-description {
+    @apply text-white/80 text-[0.95rem] leading-6 mb-2;
+  }
+
+  /* Social */
+  .connect-title {
+    @apply text-base font-medium mb-4;
+  }
+
+  .social-links {
+    @apply flex gap-4;
+  }
+
+  .social-link {
+    @apply w-10 h-10 flex items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white/80 transition duration-300;
+  }
+
+  .social-link:hover {
+    @apply bg-white/20 border-white/40 text-white -translate-y-0.5;
+  }
+
+  /* Footer Sections */
+  .footer-section {
+    @apply flex flex-col;
+  }
+
+  .section-title-footer {
+    @apply text-sm font-medium text-white mb-6 relative;
+  }
+
+  .section-title-footer::after {
+    content: '';
+    @apply absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-white to-transparent;
+  }
+
+  /* Footer Links */
+  .footer-links {
+    @apply flex flex-col gap-3 list-none;
+  }
+
+  .footer-link {
+    @apply relative inline-block text-white/70 text-[0.95rem] transition;
+  }
+
+  .footer-link:hover {
+    @apply text-white translate-x-1;
+  }
+
+  .footer-link::before {
+    content: '';
+    @apply absolute left-[-15px] top-1/2 w-2 h-px bg-white/50 opacity-0 transition;
+    transform: translateY(-50%);
+  }
+
+  .footer-link:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Contact Info */
+  .contact-info {
+    @apply flex flex-col gap-4;
+  }
+
+  .contact-item {
+    @apply flex items-center gap-3;
+  }
+
+  .contact-icon {
+    @apply text-white/80 text-sm shrink-0;
+  }
+
+  .contact-text {
+    @apply text-white/80 text-sm leading-5;
+  }
+
+  /* Back To Top */
+  .back-to-top {
+    @apply absolute top-5 right-5;
+  }
+
+  .back-to-top-btn {
+    @apply w-11 h-11 flex items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/80 cursor-pointer transition;
+  }
+
+  .back-to-top-btn:hover {
+    @apply bg-white/20 border-white/40 text-white -translate-y-1;
+  }
+
+  .back-to-top-btn i {
+    @apply text-[1.1rem];
+  }
+
+  /* ================== Responsive ================== */
+  @media (max-width: 1024px) {
+    .footer-container {
+      @apply grid-cols-[2fr_1fr_1fr] gap-9;
+    }
+
+    .contact-section {
+      @apply col-span-3 mt-5;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .spaceres-footer {
+      @apply pt-10;
+    }
+
+    .footer-container {
+      @apply grid-cols-2 gap-7;
+    }
+
+    .logo-section {
+      @apply col-span-2 mb-5;
+    }
+
+    .contact-section {
+      @apply col-span-2 mt-3;
+    }
+
+    .back-to-top {
+      @apply top-4 right-4;
+    }
+
+    .back-to-top-btn {
+      @apply w-10 h-10;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-container {
+      @apply grid-cols-1 gap-6 px-4;
+    }
+
+    .logo-section,
+    .contact-section {
+      @apply col-span-1;
+    }
+
+    .logo-container {
+      @apply justify-center text-center;
+    }
+
+    .social-links {
+      @apply justify-center;
+    }
+
+    .section-title-footer {
+      @apply text-center;
+    }
+
+    .section-title-footer::after {
+      @apply left-1/2 -translate-x-1/2;
+    }
+
+    .footer-links {
+      @apply items-center;
+    }
+
+    .contact-info {
+      @apply items-center;
+    }
+  }
+}

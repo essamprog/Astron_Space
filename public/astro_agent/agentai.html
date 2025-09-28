@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <title>Smart Research Search System</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar__left">
+            <img src="assets/Logo.png" alt="Logo" class="navbar__logo-img">
+            <h3 class="navbar__logo-text">AstroNile</h3>
+        </div>
+        <div class="navbar__center">
+            <a href="/index.html" class="navbar__link">Home</a>
+            <a href="../dashboard/dashboard.html" class="navbar__link">Dashboard</a>
+            <a href="../knowledge_graph_pro/knowledge_g.html" class="navbar__link">Knowledge Graph</a>
+            <a href="../astro_agent/agentai.html" class="navbar__link">Astro AI Pro</a>
+            <a href="/index.html#Services" class="navbar__link">Services</a>
+        </div>
+        <div class="navbar__right">
+            <button class="navbar__button" id="themeToggler"><i class='bx bx-sun'></i></button>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class='bx bx-menu'></i>
+        </button>
+        
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <div class="mobile-menu">
+                <div class="mobile-menu-header">
+                    <h3>Menu</h3>
+                    <button class="mobile-menu-close" id="mobileMenuClose">
+                        <i class='bx bx-x'></i>
+                    </button>
+                </div>
+                <div class="mobile-menu-content">
+                    <a href="/index.html" class="mobile-menu-link"><i class="bx bx-home"></i>Home</a>
+                    <a href="../dashboard/dashboard.html" class="mobile-menu-link"><i class="bx bxs-dashboard"></i>Dashboard</a>
+                    <a href="../knowledge_graph_pro/knowledge_g.html" class="mobile-menu-link"><i class="bx bxl-graphql"></i>Knowledge Graph</a>
+                    <a href="../astro_agent/agentai.html" class="mobile-menu-link"><i class="bx bxs-brain"></i>Astro AI Pro</a>
+                    <a href="/index.html#Services" class="mobile-menu-link"><i class="bx bxs-server"></i>Services</a>
+                    <div class="mobile-menu-theme">
+                        <button class="mobile-theme-btn" id="mobileThemeToggler">
+                            <i class='bx bx-sun'></i>
+                            <span>Toggle Theme</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header__title">
+            <h1>Welcome!</h1>
+            <h2>How can I help you with scientific research?</h2>
+        </div>
+        <div class="suggests">
+            <div class="suggests__item">
+                <p class="suggests__item-text">
+                    What is Artificial Intelligence?
+                </p>
+                <div class="suggests__item-icon">
+                    <i class='bx bx-brain'></i>
+                </div>
+            </div>
+            <div class="suggests__item">
+                <p class="suggests__item-text">
+                    How does Machine Learning work?
+                </p>
+                <div class="suggests__item-icon">
+                    <i class='bx bx-data'></i>
+                </div>
+            </div>
+            <div class="suggests__item">
+                <p class="suggests__item-text">
+                    What are the latest computing technologies?
+                </p>
+                <div class="suggests__item-icon">
+                    <i class='bx bx-chip'></i>
+                </div>
+            </div>
+            <div class="suggests__item">
+                <p class="suggests__item-text">
+                    Explain Neural Networks to me
+                </p>
+                <div class="suggests__item-icon">
+                    <i class='bx bx-network-chart'></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="chats"></section>
+
+    <section class="prompt">
+        <form action="#" class="prompt__form" novalidate>
+            <div class="prompt__input-wrapper">
+                <input type="text" placeholder="Type your question here..." class="prompt__form-input" required>
+                <button class="prompt__form-button" id="sendButton">
+                    <i class='bx bx-send'></i>
+                </button>
+                <button class="prompt__form-button" id="deleteButton">
+                    <i class='bx bx-trash'></i>
+                </button>
+            </div>
+        </form>
+        <p class="prompt__disclaim">
+            The system relies on scientific research available in the local database.
+        </p>
+    </section>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "learn",
+  "version": "1.0.0",
+  "main": "index.js",
+"scripts": {
+  "dev": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.13",
+    "tailwindcss": "^4.1.13"
+  }
+}
