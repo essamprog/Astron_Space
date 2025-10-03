@@ -1,627 +1,1856 @@
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AstroNile - Dashboard</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Analysis Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: "Inter", sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 50%, #667eea 100%);
-            color: #2d3748;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
+            font-family: 'Cairo', sans-serif;
+            background-color: #111827; /* Dark gray-blue */
+            color: #e5e7eb; /* Light gray */
         }
-
-        /* Header Styles - Modern Glassmorphism */
-        .header {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
         }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .card {
+            background-color: #1f2937; /* Lighter gray-blue */
+            border: 1px solid #374151;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: rotate(-15deg);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .logo-icon i {
-            color: #ffffff;
-            font-size: 1.2rem;
-            transform: rotate(15deg);
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #2d3748;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .main-nav {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #4a5568;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
+            padding: 1.5rem;
             transition: all 0.3s ease;
-            position: relative;
-            padding: 8px 16px;
-            border-radius: 8px;
         }
-
-        .nav-links a:hover {
-            color: #667eea;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
         }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 2px;
-            left: 50%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-            border-radius: 2px;
+        .audience-btn {
+            transition: all 0.2s ease;
         }
-
-        .nav-links a:hover::after {
-            width: 80%;
-        }
-
-        .login-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .hamburger-menu {
-            display: none;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: #4a5568;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .hamburger-menu:hover {
-            color: #667eea;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        /* AI Icon Animation */
-        .ai-icon-container {
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .ai-icon {
-            font-size: 8rem;
-            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 3s ease-in-out infinite, pulse 2s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.3));
-        }
-
-        .ai-icon-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: glow 3s ease-in-out infinite alternate;
-        }
-
-        /* Coming Soon Text */
-        .coming-soon-text {
-            font-size: 3rem;
+        .audience-btn.active {
+            background-color: #3b82f6; /* Blue */
+            color: white;
             font-weight: 700;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #2d3748, #4a5568, #718096);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: textShine 2s ease-in-out infinite;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        .description {
-            font-size: 1.2rem;
-            color: #4a5568;
-            margin-bottom: 30px;
-            max-width: 600px;
+        .audience-btn:not(.active) {
+            background-color: #374151;
+            color: #d1d5db;
+        }
+        
+        /* Enhanced Classification Legend Styles */
+        .legend-item {
+            display: flex;
+            align-items: center;
+            background-color: #374151;
+            border-radius: 12px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            min-height: 60px;
+        }
+        
+        .legend-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.2);
+            border-color: #6b7280;
+        }
+        
+        .legend-item.selected {
+            border-color: #3b82f6;
+            background-color: #1e40af;
+        }
+        
+        .color-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            margin-right: 16px;
+            flex-shrink: 0;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .color-box-count {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .legend-text {
+            flex: 1;
+            font-size: 16px;
+            font-weight: 600;
+            color: #f3f4f6;
+            line-height: 1.4;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            text-align: left;
+        }
+        
+        /* Detailed Cards Styles */
+        .detailed-card {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            border: 1px solid #4b5563;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        
+        .detailed-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            border-color: #6b7280;
+        }
+        
+        .detailed-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f3f4f6;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .detailed-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+        
+        .detailed-card-year {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .detailed-card-classification {
+            background-color: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .detailed-card-abstract {
+            color: #d1d5db;
+            font-size: 14px;
             line-height: 1.6;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-
-        /* Floating Particles */
-        .particles {
+        
+        .detailed-card-authors {
+            color: #9ca3af;
+            font-size: 13px;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+        
+        .detailed-card-journal {
+            color: #10b981;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+        }
+        
+        .detailed-cards-enter {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.5s ease forwards;
+        }
+        
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .detailed-cards-stagger {
+            animation-delay: calc(var(--stagger-delay, 0) * 0.1s);
+        }
+        
+        /* Papers List Styles */
+        .paper-item {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            border: 1px solid #374151;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .paper-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.2);
+            border-color: #3b82f6;
+        }
+        
+        .paper-number {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .paper-title {
+            color: #f3f4f6;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .paper-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .paper-year {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c4b5fd;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        .paper-journal {
+            color: #10b981;
+            font-weight: 500;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .see-more-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+            width: 100%;
+        }
+        
+        .see-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(59, 130, 246, 0.3);
+        }
+        
+        .see-more-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* OSDR Link Styles */
+        .osdr-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+        
+        .osdr-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(16, 185, 129, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .osdr-link:active {
+            transform: translateY(0);
+        }
+        
+        .osdr-icon {
+            font-size: 16px;
+        }
+        
+        .osdr-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #374151;
+        }
+        
+        .osdr-title {
+            color: #10b981;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        /* Paper Reference Styles */
+        .paper-reference {
+            color: #3b82f6;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline;
+            text-decoration: none;
+            font-size: inherit;
+        }
+        
+        .paper-reference:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+            text-decoration-color: #3b82f6;
+        }
+        
+        .paper-reference:active {
+            color: #1e40af;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            right: 0;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.95) 0%, rgba(55, 65, 81, 0.95) 100%);
+            border-bottom: 1px solid #4b5563;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            height: 80px;
         }
-
-        .particle {
-            position: absolute;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+        
+        .navbar__left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar__logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .navbar__logo-img {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-            opacity: 0.6;
+            border: 2px solid #3b82f6;
         }
-
-        .particle:nth-child(1) {
-            width: 4px;
-            height: 4px;
-            left: 10%;
-            animation-delay: 0s;
+        
+        .navbar__logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
         }
-
-        .particle:nth-child(2) {
-            width: 6px;
-            height: 6px;
-            left: 20%;
-            animation-delay: 1s;
+        
+        .navbar__center {
+            display: flex;
+            align-items: center;
         }
-
-        .particle:nth-child(3) {
-            width: 3px;
-            height: 3px;
-            left: 30%;
-            animation-delay: 2s;
+        
+        .navbar__menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
         }
-
-        .particle:nth-child(4) {
-            width: 5px;
-            height: 5px;
-            left: 40%;
-            animation-delay: 0.5s;
+        
+        .navbar__link {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
         }
-
-        .particle:nth-child(5) {
-            width: 4px;
-            height: 4px;
-            left: 60%;
-            animation-delay: 1.5s;
+        
+        .navbar__link:hover {
+            color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(15px);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
-
-        .particle:nth-child(6) {
-            width: 7px;
-            height: 7px;
-            left: 80%;
-            animation-delay: 3s;
+        
+        .navbar__link.active {
+            color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.3);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
         }
-
-        .particle:nth-child(7) {
-            width: 3px;
-            height: 3px;
-            left: 90%;
-            animation-delay: 2.5s;
+        
+        .navbar__right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
-
-        /* Side Navigation - Modern Glass Effect */
+        
+        .navbar__profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar__profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #3b82f6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar__profile-img:hover {
+            border-color: #60a5fa;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .navbar__mobile-menu-btn {
+            display: none;
+            color: #d1d5db;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .navbar__mobile-menu-btn:hover {
+            color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Sidebar Styles */
         .sidenav {
             height: 100%;
             width: 280px;
             position: fixed;
-            z-index: 200;
+            z-index: 1100;
             top: 0;
             right: -280px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(0, 45, 56, 0.3);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
             overflow-x: hidden;
             transition: right 0.4s ease;
             padding-top: 5px;
             display: flex;
             flex-direction: column;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
         }
-
+        
         .sidenav.open {
             right: 0;
         }
-
+        
         .sidenav-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px 25px;
             margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
+        
         .sidenav-logo {
             font-size: 1.5rem;
-            color: #2d3748;
+            color: #fff;
             font-weight: bold;
         }
-
+        
         .close-btn {
             font-size: 2rem;
-            color: #718096;
+            color: #8a91b4;
             text-decoration: none;
-            transition: all 0.3s;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: color 0.3s;
+            cursor: pointer;
         }
-
+        
         .close-btn:hover {
-            color: #667eea;
-            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
         }
-
+        
         .sidenav-links {
             list-style: none;
             padding: 0 15px;
             flex-grow: 1;
+            margin: 0;
         }
-
+        
         .sidenav-links li a {
             padding: 15px 20px;
             text-decoration: none;
             font-size: 1rem;
-            color: #4a5568;
+            color: #a8b0d3;
             display: flex;
             align-items: center;
             border-radius: 12px;
             margin-bottom: 10px;
-            transition: all 0.3s;
-            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s;
         }
-
+        
         .sidenav-links li a i {
             margin-right: 15px;
             width: 20px;
             text-align: center;
         }
-
+        
         .sidenav-links li a:hover,
         .sidenav-links li a.active {
-            background: rgba(255, 255, 255, 0.2);
-            color: #667eea;
-            transform: translateX(5px);
+            background-color: #3b426e;
+            color: #ffffff;
         }
-
+        
         .logout-section {
             padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: rgba(59, 66, 110, 0.3);
+            border-radius: 12px;
+        }
+        
+        .user-profile-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #3b82f6;
+        }
+        
+        .user-profile-name {
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
         .logout-btn {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #ffffff;
-            border: none;
+            padding: 12px 20px;
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
             border-radius: 12px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
-
+        
         .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background-color: rgba(239, 68, 68, 0.3);
+            color: #ffffff;
+            border-color: rgba(239, 68, 68, 0.5);
         }
-
-        .logout-btn i {
-            margin-right: 10px;
-        }
-
-        /* Animations */
-        @keyframes gradientShift {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes glow {
-            0% {
-                opacity: 0.5;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            100% {
-                opacity: 0.8;
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-        }
-
-        @keyframes textShine {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
+        
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .nav-links,
-            .login-btn {
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                height: 70px;
+                z-index: 1000;
+            }
+            
+            .navbar__center {
                 display: none;
             }
-
-            .hamburger-menu {
-                display: block;
+            
+            .navbar__profile {
+                display: none;
             }
-
-            .coming-soon-text {
-                font-size: 2.5rem;
+            
+            .navbar__mobile-menu-btn {
+                display: block !important;
+                z-index: 1002;
+                position: relative;
+                background-color: rgba(59, 130, 246, 0.2);
+                border: 1px solid rgba(59, 130, 246, 0.4);
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
-
-            .ai-icon {
-                font-size: 6rem;
+            
+            .navbar__logo-text {
+                font-size: 1.25rem;
             }
-
-            .description {
-                font-size: 1rem;
-                padding: 0 20px;
+            
+            .navbar__logo-img {
+                width: 32px;
+                height: 32px;
+            }
+            
+            body {
+                padding-top: 90px;
             }
         }
-
-        @media (max-width: 576px) {
-            .coming-soon-text {
-                font-size: 2rem;
+        
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0.75rem;
+                height: 65px;
             }
-
-            .ai-icon {
-                font-size: 5rem;
+            
+            .navbar__profile {
+                display: none;
             }
-
-            .ai-icon-glow {
-                width: 150px;
-                height: 150px;
+            
+            .navbar__mobile-menu-btn {
+                min-width: 40px;
+                min-height: 40px;
+                font-size: 1.3rem;
             }
-
-            .description {
-                font-size: 0.9rem;
+            
+            .navbar__logo-text {
+                font-size: 1.1rem;
             }
+            
+            .navbar__logo-img {
+                width: 28px;
+                height: 28px;
+            }
+            
+            body {
+                padding-top: 85px;
+            }
+        }
+        
+        /* Body padding for fixed navbar */
+        body {
+            padding-top: 100px;
         }
     </style>
 </head>
-
-<body>
-    <!-- Floating Particles -->
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-
-    <!-- Side Navigation -->
+<body class="p-4 md:p-8">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar__left">
+            <div class="navbar__logo">
+                <img src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=40&h=40&fit=crop&crop=center" alt="AstroNile Logo" class="navbar__logo-img">
+                <span class="navbar__logo-text">AstroNile</span>
+            </div>
+        </div>
+        
+        <div class="navbar__center">
+            <ul class="navbar__menu">
+                <li><a href="#" class="navbar__link">Home</a></li>
+                <li><a href="#" class="navbar__link active">Dashboard</a></li>
+                <li><a href="#" class="navbar__link">Knowledge Graph</a></li>
+                <li><a href="#" class="navbar__link">Astro AI Pro</a></li>
+                <li><a href="#" class="navbar__link">Services</a></li>
+            </ul>
+        </div>
+        
+        <div class="navbar__right">
+            <div class="navbar__profile">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="User Profile" class="navbar__profile-img">
+            </div>
+            
+            <div class="navbar__mobile-menu-btn">
+                <i class='bx bx-menu'></i>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Sidebar -->
     <div id="mySidenav" class="sidenav">
         <div class="sidenav-header">
             <span class="sidenav-logo">AstroNile</span>
             <a href="javascript:void(0)" class="close-btn" id="closeNavBtn">&times;</a>
         </div>
         <ul class="sidenav-links">
-            <li><a href="../../index.html" class="active"><i class="bx bx-home"></i>Home</a></li>
-            <li><a href="../../public/dashboard/dashboard.html"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="../../public/knowledge_graph_pro/knowledge_g.html"><i class='bx bxl-graphql'></i>Knowledge Graph</a></li>
-            <li><a href="../../public/astro_agent/agentai.html"><i class='bx bxs-brain'></i>Astro AI Pro</a></li>
-            <li><a href="../../index.html#Services"><i class='bx bxs-server'></i>Services</a></li>
+            <li><a href="#" class="sidenav-link"><i class="bx bx-home"></i>Home</a></li>
+            <li><a href="#" class="sidenav-link active"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li><a href="#" class="sidenav-link"><i class='bx bxl-graphql'></i>Knowledge Graph</a></li>
+            <li><a href="#" class="sidenav-link"><i class='bx bxs-brain'></i>Astro AI Pro</a></li>
+            <li><a href="#" class="sidenav-link"><i class='bx bx-cog'></i>Services</a></li>
         </ul>
         <div class="logout-section">
+            <div class="user-profile">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="User Profile" class="user-profile-img">
+                <span class="user-profile-name">User Profile</span>
+            </div>
             <button class="logout-btn"><i class="fas fa-sign-out-alt"></i>Logout</button>
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-container">
-            <a href="../../index.html" class="logo">
-                <div class="logo-icon"><i class="fas fa-rocket"></i></div>
-                <span class="logo-text">AstroNile</span>
-            </a>
+    <div class="max-w-7xl mx-auto">
+        <!-- Header: Title and Audience Selector -->
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl font-bold mb-4 text-white">Scientific Research Analysis Dashboard</h1>
+            <p class="text-lg text-gray-400 mb-6">Interactive interface for analyzing 24 specialized scientific research papers</p>
+            <div class="flex justify-center items-center gap-3 bg-gray-800 p-2 rounded-xl max-w-lg mx-auto">
+                <button id="scientist-btn" class="audience-btn w-full py-2 px-4 rounded-lg active" data-audience="scientist">Scientist</button>
+                <button id="engineer-btn" class="audience-btn w-full py-2 px-4 rounded-lg" data-audience="engineer">Mission Proposals</button>
+            </div>
+        </header>
 
-            <ul class="nav-links">
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../../public/dashboard/dashboard.html">Dashboard</a></li>
-                <li><a href="../knowledge_graph_pro/knowledge_g.html">Knowledge Graph</a></li>
-                <li><a href="../astro_agent/agentai.html">Astro AI Pro</a></li>
-                <li><a href="../../index.html#Services">Services</a></li>
-            </ul>
 
-            <a href="#" class="login-btn">Log In</a>
+        <!-- Dashboard Content -->
+        <div id="dashboard-content">
+        <!-- Charts Section - Top Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Classification Chart -->
+            <div class="card">
+                <h2 class="text-xl font-semibold mb-4 text-white">Research Classification</h2>
+                <div class="chart-container">
+                    <canvas id="classificationChart"></canvas>
+                </div>
+                
+                <!-- Total Papers Count -->
+                <div class="text-center mt-4 mb-4">
+                    <div class="inline-flex items-center gap-2 bg-blue-900/30 border border-blue-500/30 rounded-lg px-4 py-2">
+                        <span class="text-blue-400 font-semibold">Total Research Papers:</span>
+                        <span class="text-white font-bold text-lg" id="total-papers-count">24</span>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Legend -->
+                <div id="classification-legend" class="grid gap-3">
+                    <!-- Legend items will be dynamically generated -->
+                </div>
+            </div>
 
-            <button class="hamburger-menu" id="openNavBtn">
-                <i class="fas fa-bars"></i>
-            </button>
+            <!-- Papers by Year Chart -->
+            <div class="card">
+                <h2 class="text-xl font-semibold mb-2 text-white">Research Over Time</h2>
+                <div class="text-sm text-gray-400 mb-4 text-center">
+                    Total Research Papers: 24
+                </div>
+                <div class="chart-container">
+                    <canvas id="experimentTypeChart"></canvas>
+                </div>
+                
+                <!-- Papers List Section -->
+                <div id="papers-list-section" class="hidden mt-6">
+                    <h3 class="text-lg font-semibold mb-4 text-white border-b border-gray-600 pb-2">
+                        Research Papers in Selected Classification
+                    </h3>
+                    <div id="papers-list-container" class="space-y-3">
+                        <!-- Papers will be loaded here -->
+                    </div>
+                    <button id="see-more-btn" class="see-more-btn hidden">
+                        See More Papers
+                    </button>
+                </div>
+            </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="ai-icon-container">
-            <div class="ai-icon-glow"></div>
-            <i class="fas fa-dashboard ai-icon"></i>
+        <!-- Main Content Section - Bottom -->
+        <div class="flex flex-col gap-8">
+            <div id="welcome-message" class="card text-center h-full flex flex-col justify-center items-center">
+                <h3 class="text-2xl font-bold text-white">Welcome!</h3>
+                <p class="text-gray-400 mt-2">Please select a classification from the pie chart to start exploring the data.</p>
+            </div>
+            
+            <div id="data-sections" class="hidden">
+                 <!-- Investment Opportunities (Investor Only) -->
+                <div id="opportunities-section" class="card hidden">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Investment Opportunities</h2>
+                    <div id="opportunities-content" class="flex flex-wrap gap-4">
+                        <!-- Opportunities will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Detailed View Cards Section -->
+                <div id="detailed-cards-section" class="hidden mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 id="detailed-cards-title" class="text-xl font-semibold text-white">Detailed Research</h2>
+                        <button id="close-detailed-cards" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="detailed-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Detailed cards will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Data Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card" id="results-card">
+                        <h3 class="text-lg font-semibold mb-3 text-blue-400">Results</h3>
+                        <ul id="results-list" class="list-decimal pl-5 space-y-2 text-gray-300"></ul>
+                    </div>
+                    <div class="card" id="gaps-card">
+                        <h3 class="text-lg font-semibold mb-3 text-yellow-400">Gaps</h3>
+                        <ul id="gaps-list" class="list-decimal pl-5 space-y-2 text-gray-300"></ul>
+                    </div>
+                    <div class="card" id="consensus-card">
+                        <h3 class="text-lg font-semibold mb-3 text-green-400">Consensus Points</h3>
+                        <ul id="consensus-list" class="list-decimal pl-5 space-y-2 text-gray-300"></ul>
+                    </div>
+                    <div class="card" id="disagreement-card">
+                        <h3 class="text-lg font-semibold mb-3 text-red-400">Disagreement Points</h3>
+                        <ul id="disagreement-list" class="list-decimal pl-5 space-y-2 text-gray-300"></ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <h1 class="coming-soon-text">Coming Soon</h1>        
-        <p class="description">
-            We're working on something amazing!
-        </p>
-    </main>
+        </div>
+
+        <!-- Mission Proposals Tab -->
+        <div id="mission-proposals-tab" class="hidden">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold mb-6 text-white text-center">Mission Proposals</h2>
+                <p class="text-gray-400 text-center mb-8">Explore innovative space research mission concepts and their scientific objectives</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Mission Card 1 -->
+                    <div class="mission-card bg-gradient-to-br from-blue-900/30 to-purple-900/30 border border-blue-500/30 rounded-xl p-6 transition-all duration-300 hover:border-blue-400/50 hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer" data-mission="rodentlab-x">
+                        <div class="mission-header">
+                            <h3 class="text-xl font-bold text-blue-400 mb-3">RodentLab-X</h3>
+                            <p class="text-gray-300 text-sm mb-4">Long-duration Automated Mouse Mission for Mars-class physiological studies</p>
+                            <div class="text-blue-400 text-sm font-medium">
+                                <span>Click to view details</span>
+                                <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mission Card 2 -->
+                    <div class="mission-card bg-gradient-to-br from-green-900/30 to-teal-900/30 border border-green-500/30 rounded-xl p-6 transition-all duration-300 hover:border-green-400/50 hover:shadow-lg hover:shadow-green-500/20 cursor-pointer" data-mission="plantlab-advanced">
+                        <div class="mission-header">
+                            <h3 class="text-xl font-bold text-green-400 mb-3">PlantLab-Advanced</h3>
+                            <p class="text-gray-300 text-sm mb-4">Next-generation plant biology research platform for deep space agriculture</p>
+                            <div class="text-green-400 text-sm font-medium">
+                                <span>Click to view details</span>
+                                <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mission Card 3 -->
+                    <div class="mission-card bg-gradient-to-br from-red-900/30 to-pink-900/30 border border-red-500/30 rounded-xl p-6 transition-all duration-300 hover:border-red-400/50 hover:shadow-lg hover:shadow-red-500/20 cursor-pointer" data-mission="radiationshield-study">
+                        <div class="mission-header">
+                            <h3 class="text-xl font-bold text-red-400 mb-3">RadiationShield-Study</h3>
+                            <p class="text-gray-300 text-sm mb-4">Advanced radiation protection research for deep space exploration</p>
+                            <div class="text-red-400 text-sm font-medium">
+                                <span>Click to view details</span>
+                                <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mission Card 4 -->
+                    <div class="mission-card bg-gradient-to-br from-yellow-900/30 to-orange-900/30 border border-yellow-500/30 rounded-xl p-6 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-lg hover:shadow-yellow-500/20 cursor-pointer" data-mission="microgravity-factory">
+                        <div class="mission-header">
+                            <h3 class="text-xl font-bold text-yellow-400 mb-3">MicroGravity-Factory</h3>
+                            <p class="text-gray-300 text-sm mb-4">In-space manufacturing platform for advanced materials production</p>
+                            <div class="text-yellow-400 text-sm font-medium">
+                                <span>Click to view details</span>
+                                <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mission Card 5 -->
+                    <div class="mission-card bg-gradient-to-br from-indigo-900/30 to-purple-900/30 border border-indigo-500/30 rounded-xl p-6 transition-all duration-300 hover:border-indigo-400/50 hover:shadow-lg hover:shadow-indigo-500/20 cursor-pointer" data-mission="biolab-deep">
+                        <div class="mission-header">
+                            <h3 class="text-xl font-bold text-indigo-400 mb-3">BioLab-Deep</h3>
+                            <p class="text-gray-300 text-sm mb-4">Comprehensive biological research station for long-duration space studies</p>
+                            <div class="text-indigo-400 text-sm font-medium">
+                                <span>Click to view details</span>
+                                <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mission Card 6 -->
+                    <div class="mission-card bg-gradient-to-br from-teal-900/30 to-cyan-900/30 border border-teal-500/30 rounded-xl p-6 transition-all duration-300 hover:border-teal-400/50 hover:shadow-lg hover:shadow-teal-500/20 cursor-pointer" data-mission="asteroidlab">
+                        <div class="mission-header">
+                            <h3 class="text-xl font-bold text-teal-400 mb-3">AsteroidLab</h3>
+                            <p class="text-gray-300 text-sm mb-4">Asteroid mining and resource utilization research platform</p>
+                            <div class="text-teal-400 text-sm font-medium">
+                                <span>Click to view details</span>
+                                <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mission Card 7 -->
+                    <div class="mission-card bg-gradient-to-br from-purple-900/30 to-pink-900/30 border border-purple-500/30 rounded-xl p-6 transition-all duration-300 hover:border-purple-400/50 hover:shadow-lg hover:shadow-purple-500/20 cursor-pointer" data-mission="marsprep-lab">
+                        <div class="mission-header">
+                            <h3 class="text-xl font-bold text-purple-400 mb-3">MarsPrep-Lab</h3>
+                            <p class="text-gray-300 text-sm mb-4">Mars mission preparation and technology validation platform</p>
+                            <div class="text-purple-400 text-sm font-medium">
+                                <span>Click to view details</span>
+                                <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Side Navigation JavaScript
-        const openNavBtn = document.getElementById('openNavBtn');
-        const closeNavBtn = document.getElementById('closeNavBtn');
-        const sidenav = document.getElementById('mySidenav');
+document.addEventListener('DOMContentLoaded', () => {
 
-        openNavBtn.addEventListener('click', () => {
-            sidenav.classList.add('open');
+    // --- START: REAL DATA FROM dashboard.json ---
+    let papersData = [];
+    
+    // Mission proposals data
+    const missionData = {
+        'rodentlab-x': {
+            name: 'RodentLab-X',
+            description: 'Long-duration Automated Mouse Mission for Mars-class physiological studies',
+            objective: 'Develop a next-generation autonomous rodent habitat optimized for long-duration missions (60–90 days) without astronaut intervention.',
+            features: [
+                'Fully redundant food/water systems with no exposed moving parts',
+                'Continuous implantable telemetry for cardiovascular, musculoskeletal, and neural monitoring',
+                'Integrated video/AI monitoring to detect stress, aggression, and health decline in real-time'
+            ],
+            goals: [
+                'Understand male-specific adaptation to space (including reproduction)',
+                'Study long-term re-adaptation to gravity after extended spaceflight',
+                'Provide validated models for human physiological risks during Mars-class missions'
+            ],
+            color: 'blue'
+        },
+        'plantlab-advanced': {
+            name: 'PlantLab-Advanced',
+            description: 'Next-generation plant biology research platform for deep space agriculture',
+            objective: 'Establish sustainable plant growth systems for long-duration space missions and Mars colonization.',
+            features: [
+                'Automated nutrient delivery and pH monitoring systems',
+                'LED lighting arrays optimized for different growth phases',
+                'Real-time plant health monitoring with AI-powered disease detection',
+                'Modular design for easy expansion and maintenance'
+            ],
+            goals: [
+                'Optimize plant growth in microgravity environments',
+                'Develop closed-loop life support systems',
+                'Study plant stress responses to space radiation',
+                'Create sustainable food production for Mars missions'
+            ],
+            color: 'green'
+        },
+        'radiationshield-study': {
+            name: 'RadiationShield-Study',
+            description: 'Advanced radiation protection research for deep space exploration',
+            objective: 'Develop and test advanced radiation shielding technologies for crew protection during Mars missions.',
+            features: [
+                'Multi-layered shielding materials testing platform',
+                'Real-time radiation monitoring and dosimetry systems',
+                'Water-based and magnetic field shielding experiments',
+                'Biological samples exposure studies'
+            ],
+            goals: [
+                'Evaluate effectiveness of different shielding materials',
+                'Study biological effects of space radiation exposure',
+                'Develop predictive models for radiation dose accumulation',
+                'Test countermeasures for radiation-induced health effects'
+            ],
+            color: 'red'
+        },
+        'microgravity-factory': {
+            name: 'MicroGravity-Factory',
+            description: 'In-space manufacturing platform for advanced materials production',
+            objective: 'Establish in-orbit manufacturing capabilities for advanced materials that can only be produced in microgravity.',
+            features: [
+                'Automated crystal growth chambers for pharmaceutical production',
+                'Fiber optic manufacturing systems',
+                'Perfect sphere production for ball bearings',
+                'Advanced alloy mixing and solidification platforms'
+            ],
+            goals: [
+                'Optimize crystal growth parameters for drug development',
+                'Study fluid dynamics in zero gravity manufacturing',
+                'Develop commercial space-based production capabilities',
+                'Create superior materials for Earth applications'
+            ],
+            color: 'yellow'
+        },
+        'biolab-deep': {
+            name: 'BioLab-Deep',
+            description: 'Comprehensive biological research station for long-duration space studies',
+            objective: 'Conduct multi-species biological research to understand fundamental life processes in space environments.',
+            features: [
+                'Multi-species habitat modules (cells, bacteria, small organisms)',
+                'Advanced microscopy and imaging systems',
+                'Automated sample processing and analysis',
+                'Real-time genetic sequencing capabilities'
+            ],
+            goals: [
+                'Study cellular responses to microgravity and radiation',
+                'Investigate genetic mutations in space environments',
+                'Develop biological countermeasures for space travel',
+                'Understand evolution in space conditions'
+            ],
+            color: 'indigo'
+        },
+        'asteroidlab': {
+            name: 'AsteroidLab',
+            description: 'Asteroid mining and resource utilization research platform',
+            objective: 'Develop technologies for extracting and utilizing resources from asteroids for space exploration and Earth applications.',
+            features: [
+                'Automated drilling and extraction systems',
+                'In-situ resource processing facilities',
+                'Water extraction and purification systems',
+                'Metal refining and 3D printing capabilities'
+            ],
+            goals: [
+                'Characterize asteroid composition and structure',
+                'Develop efficient extraction techniques',
+                'Test in-space manufacturing processes',
+                'Create sustainable resource utilization systems'
+            ],
+            color: 'teal'
+        },
+        'marsprep-lab': {
+            name: 'MarsPrep-Lab',
+            description: 'Mars mission preparation and technology validation platform',
+            objective: 'Validate technologies and systems required for human Mars missions through comprehensive testing in space.',
+            features: [
+                'Mars atmosphere simulation chambers',
+                'Advanced life support system testing',
+                'Surface mobility and robotics validation',
+                'Communication delay simulation systems'
+            ],
+            goals: [
+                'Test Mars mission critical technologies',
+                'Validate crew health monitoring systems',
+                'Study psychological effects of isolation',
+                'Develop autonomous operation procedures'
+            ],
+            color: 'purple'
+        }
+    };
+    
+    // Load real data from dashboard.json
+    async function loadPapersData() {
+        try {
+            const response = await fetch('dashboard.json');
+            const data = await response.json();
+            
+            papersData = data.map(paper => ({
+                id: paper.id,
+                title: paper.titie || `بحث رقم ${paper.id}`,
+                classification: paper["Primary Classification"] || "غير محدد",
+                year: parseInt(paper.year) || 2020,
+                results: paper.result || "لا توجد نتائج متاحة",
+                gaps: paper.gapes || "لا توجد ثغرات محددة",
+                consensus: paper.Consensus || "No consensus identified",
+                disagreement: paper.Disagreement || "No disagreement identified",
+                scientificAdvancement: paper["Scientific Advancement:"] || "No scientific advancement information available",
+                abstract: paper.Abstract || "",
+                authors: paper.authers || "",
+                journal: paper.Journal || "",
+                keywords: paper.Keywords || "",
+                osdrData: paper["osdr:more data"] || ""
+            }));
+            
+            // Initialize dashboard after data is loaded
+            initializeDashboard();
+        } catch (error) {
+            console.error('خطأ في تحميل البيانات:', error);
+            // Fallback to mock data if JSON loading fails
+            papersData = Array.from({ length: 24 }, (_, i) => ({
+                id: i + 1,
+                title: `بحث رقم ${i + 1}`,
+                classification: "غير محدد",
+                year: 2020,
+                results: "لا توجد نتائج متاحة",
+                gaps: "لا توجد ثغرات محددة", 
+                consensus: "No consensus identified",
+                disagreement: "No disagreement identified"
+            }));
+            initializeDashboard();
+        }
+    }
+    // --- END: REAL DATA ---
+
+    let classificationChart, experimentTypeChart;
+    let currentAudience = 'scientist';
+    let currentClassification = null;
+
+    const welcomeMessage = document.getElementById('welcome-message');
+    const dataSections = document.getElementById('data-sections');
+
+    function initializeDashboard() {
+        renderClassificationChart();
+        renderExperimentTypeChart();
+        setupEventListeners();
+        updateAudienceView();
+    }
+
+    function getClassificationData() {
+        const counts = papersData.reduce((acc, paper) => {
+            acc[paper.classification] = (acc[paper.classification] || 0) + 1;
+            return acc;
+        }, {});
+        
+        const total = papersData.length;
+        
+        // Enhanced colors for better distinction - Red, Green, Blue, Purple
+        const colors = [
+            '#ef4444', // Red
+            '#10b981', // Green  
+            '#3b82f6', // Blue
+            '#8b5cf6', // Purple
+            '#f97316', // Orange (backup)
+            '#06b6d4', // Cyan (backup)
+            '#84cc16', // Lime (backup)
+            '#f59e0b'  // Amber (backup)
+        ];
+        
+        // Create labels with count and percentage for chart display
+        const labelsWithCountAndPercentage = Object.keys(counts).map(label => {
+            const count = counts[label];
+            const percentage = ((count / total) * 100).toFixed(1);
+            return `${label} (${count} - ${percentage}%)`;
         });
+        
+        return {
+            labels: labelsWithCountAndPercentage,
+            originalLabels: Object.keys(counts), // Keep original labels for legend
+            data: Object.values(counts),
+            colors: colors.slice(0, Object.keys(counts).length),
+            total: total
+        };
+    }
 
-        closeNavBtn.addEventListener('click', () => {
-            sidenav.classList.remove('open');
+    function renderClassificationChart() {
+        const ctx = document.getElementById('classificationChart').getContext('2d');
+        const { labels, originalLabels, data, colors } = getClassificationData();
+        
+        if(classificationChart) classificationChart.destroy();
+
+        classificationChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Research Papers',
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: '#1f2937',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false // Hide default legend, we'll use custom one
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const chartElement = elements[0];
+                        const originalLabel = originalLabels[chartElement.index];
+                        handleClassificationSelect(originalLabel);
+                    }
+                }
+            }
         });
+        
+        // Create enhanced legend with original labels
+        createEnhancedLegend(originalLabels, data, colors);
+        
+        // Update total papers count
+        updateTotalPapersCount();
+    }
+    
+    function createEnhancedLegend(labels, data, colors) {
+        const legendContainer = document.getElementById('classification-legend');
+        legendContainer.innerHTML = '';
+        
+        labels.forEach((label, index) => {
+            const legendItem = document.createElement('div');
+            legendItem.className = 'legend-item';
+            legendItem.onclick = () => handleClassificationSelect(label);
+            
+            legendItem.innerHTML = `
+                <div class="color-box" style="background-color: ${colors[index]}">
+                    <span class="color-box-count">${data[index]}</span>
+                </div>
+                <div class="legend-text">${label}</div>
+            `;
+            
+            legendContainer.appendChild(legendItem);
+        });
+    }
 
-        // Close sidenav when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!sidenav.contains(e.target) && !openNavBtn.contains(e.target)) {
-                sidenav.classList.remove('open');
+    function renderExperimentTypeChart(filterType = 'All', classification = null) {
+        const ctx = document.getElementById('experimentTypeChart').getContext('2d');
+        let filteredPapers = papersData;
+
+        if (classification) {
+             filteredPapers = filteredPapers.filter(p => p.classification === classification);
+        }
+
+        // For real data, we'll show papers by year instead of experiment type
+        const dataByYear = filteredPapers.reduce((acc, paper) => {
+            acc[paper.year] = (acc[paper.year] || 0) + 1;
+            return acc;
+        }, {});
+
+        const years = [...new Set(papersData.map(p => p.year))].sort();
+        const counts = years.map(year => dataByYear[year] || 0);
+
+        if (experimentTypeChart) experimentTypeChart.destroy();
+
+        experimentTypeChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: 'Number of Research Papers',
+                    data: counts,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderColor: '#3b82f6',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#3b82f6',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 12,
+                    pointHoverBackgroundColor: '#3b82f6',
+                    pointHoverBorderColor: '#ffffff',
+                    pointHoverBorderWidth: 3,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#9ca3af', font: { family: 'Cairo' } },
+                        grid: { color: '#374151' }
+                    },
+                    x: {
+                        ticks: { color: '#9ca3af', font: { family: 'Cairo' } },
+                        grid: { color: '#374151' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const chartElement = elements[0];
+                        const year = experimentTypeChart.data.labels[chartElement.index];
+                        handleYearSelect(year);
+                    }
+                },
+                onHover: (event, elements) => {
+                    event.native.target.style.cursor = elements.length > 0 ? 'pointer' : 'default';
+                }
+            }
+        });
+    }
+
+    function handleClassificationSelect(classification) {
+        currentClassification = classification;
+        welcomeMessage.classList.add('hidden');
+        dataSections.classList.remove('hidden');
+
+        // Update legend selection
+        document.querySelectorAll('.legend-item').forEach(item => {
+            item.classList.remove('selected');
+        });
+        
+        // Find and select the clicked legend item
+        const legendItems = document.querySelectorAll('.legend-item');
+        legendItems.forEach(item => {
+            if (item.querySelector('.legend-text').textContent === classification) {
+                item.classList.add('selected');
             }
         });
 
-        // Add some interactive hover effects
-        const navLinks = document.querySelectorAll('.nav-links a, .sidenav-links a');
-        navLinks.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                link.style.transform = 'translateX(5px)';
+        const filteredPapers = papersData.filter(p => p.classification === classification);
+
+        updateList('results-list', filteredPapers.map(p => p.results));
+        updateList('gaps-list', filteredPapers.map(p => p.gaps));
+        updateList('consensus-list', filteredPapers.map(p => p.consensus));
+        updateList('disagreement-list', filteredPapers.map(p => p.disagreement));
+
+        // Show papers list under the chart
+        showPapersList(filteredPapers, classification);
+
+        updateAudienceView();
+        renderExperimentTypeChart('All', currentClassification);
+    }
+    
+    function showPapersList(papers, classification) {
+        const papersListSection = document.getElementById('papers-list-section');
+        const papersListContainer = document.getElementById('papers-list-container');
+        const seeMoreBtn = document.getElementById('see-more-btn');
+        
+        // Update title
+        const title = papersListSection.querySelector('h3');
+        title.textContent = `${papers.length} Research Papers in "${classification}"`;
+        
+        // Clear existing papers
+        papersListContainer.innerHTML = '';
+        
+        // Show only first 3 papers
+        const visiblePapers = papers.slice(0, 3);
+        visiblePapers.forEach((paper, index) => {
+            const paperItem = createPaperItem(paper, index + 1);
+            papersListContainer.appendChild(paperItem);
+        });
+        
+        // Show or hide "See More" button based on total papers
+        if (papers.length > 3) {
+            seeMoreBtn.classList.remove('hidden');
+            seeMoreBtn.onclick = () => showDetailedCards(papers, `All ${papers.length} Research Papers in "${classification}"`);
+        } else {
+            seeMoreBtn.classList.add('hidden');
+        }
+        
+        // Show the section
+        papersListSection.classList.remove('hidden');
+        
+        // Add stagger animation
+        setTimeout(() => {
+            papersListContainer.querySelectorAll('.paper-item').forEach((item, index) => {
+                item.style.setProperty('--stagger-delay', index);
+                item.classList.add('detailed-cards-enter', 'detailed-cards-stagger');
+            });
+        }, 50);
+    }
+    
+    function createPaperItem(paper, number) {
+        const paperItem = document.createElement('div');
+        paperItem.className = 'paper-item';
+        
+        // Truncate long titles
+        const truncatedTitle = paper.title.length > 80 ? 
+            paper.title.substring(0, 80) + '...' : 
+            paper.title;
+        
+        paperItem.innerHTML = `
+            <div class="paper-number">Paper ${number}</div>
+            <div class="paper-title">${truncatedTitle}</div>
+            <div class="paper-meta">
+                <span class="paper-year">${paper.year}</span>
+                <span class="paper-journal">${paper.journal || 'Journal not specified'}</span>
+            </div>
+        `;
+        
+        // Add click event to show paper details
+        paperItem.addEventListener('click', () => {
+            showPaperDetails(paper);
+        });
+        
+        return paperItem;
+    }
+
+    function updateList(elementId, items) {
+        const list = document.getElementById(elementId);
+        list.innerHTML = '';
+        if (items.length > 0) {
+            items.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = processPaperReferences(item);
+                list.appendChild(li);
             });
             
-            link.addEventListener('mouseleave', () => {
-                link.style.transform = 'translateX(0)';
+            // Add click event listeners to paper references
+            setTimeout(() => {
+                list.querySelectorAll('.paper-reference').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const paperId = parseInt(link.getAttribute('data-paper-id'));
+                        const paper = papersData.find(p => p.id === paperId);
+                        if (paper) {
+                            showPaperDetails(paper);
+                        }
+                    });
+                });
+            }, 100);
+        } else {
+            list.innerHTML = '<li>No data available to display.</li>';
+        }
+    }
+    
+    function processPaperReferences(text) {
+        if (!text) return text;
+        
+        // Find references like "#21", "#7", etc.
+        return text.replace(/#(\d+)/g, (match, paperNumber) => {
+            const paperId = parseInt(paperNumber);
+            const referencedPaper = papersData.find(paper => paper.id === paperId);
+            
+            if (referencedPaper) {
+                const truncatedTitle = referencedPaper.title.length > 40 ? 
+                    referencedPaper.title.substring(0, 40) + '...' : 
+                    referencedPaper.title;
+                
+                return `<span class="paper-reference" data-paper-id="${paperId}">${truncatedTitle}</span>`;
+            }
+            
+            return match; // Return original if paper not found
+        });
+    }
+    
+    function showMissionDetails(missionId) {
+        const mission = missionData[missionId];
+        if (!mission) return;
+        
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+        
+        const colorClasses = {
+            blue: 'from-blue-900/30 to-purple-900/30 border-blue-500/30',
+            green: 'from-green-900/30 to-teal-900/30 border-green-500/30',
+            red: 'from-red-900/30 to-pink-900/30 border-red-500/30',
+            yellow: 'from-yellow-900/30 to-orange-900/30 border-yellow-500/30',
+            indigo: 'from-indigo-900/30 to-purple-900/30 border-indigo-500/30',
+            teal: 'from-teal-900/30 to-cyan-900/30 border-teal-500/30',
+            purple: 'from-purple-900/30 to-pink-900/30 border-purple-500/30'
+        };
+        
+        modal.innerHTML = `
+            <div class="bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2">${mission.name}</h2>
+                        <p class="text-gray-400 text-lg">${mission.description}</p>
+                    </div>
+                    <button class="close-modal text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br ${colorClasses[mission.color]} border ${colorClasses[mission.color].split(' ')[2]} rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">🎯 Mission Objective</h3>
+                        <p class="text-gray-300 leading-relaxed">${mission.objective}</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br ${colorClasses[mission.color]} border ${colorClasses[mission.color].split(' ')[2]} rounded-xl p-6">
+                            <h3 class="text-xl font-semibold text-yellow-400 mb-4">⚙️ Key Features</h3>
+                            <ul class="space-y-2">
+                                ${mission.features.map(feature => `<li class="text-gray-300 text-sm flex items-start"><span class="text-yellow-400 mr-2">•</span>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br ${colorClasses[mission.color]} border ${colorClasses[mission.color].split(' ')[2]} rounded-xl p-6">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-4">🔬 Scientific Goals</h3>
+                            <ul class="space-y-2">
+                                ${mission.goals.map(goal => `<li class="text-gray-300 text-sm flex items-start"><span class="text-purple-400 mr-2">•</span>${goal}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                document.body.removeChild(modal);
+            }
+        });
+        
+        // Close button
+        modal.querySelector('.close-modal').addEventListener('click', () => {
+            document.body.removeChild(modal);
+        });
+    }
+    
+    function updateAudienceView() {
+        // This function can be used for other audience-specific features in the future
+        // Currently, all audiences see the same data
+    }
+    
+    function updateTotalPapersCount() {
+        const totalCount = papersData.length;
+        const countElement = document.getElementById('total-papers-count');
+        if (countElement) {
+            countElement.textContent = totalCount;
+        }
+    }
+
+
+    function setupEventListeners() {
+        document.querySelectorAll('.audience-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const audience = e.target.dataset.audience;
+                console.log('Button clicked:', audience); // Debug log
+                currentAudience = audience;
+                document.querySelectorAll('.audience-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Show/hide tabs based on audience
+                if (audience === 'engineer') {
+                    console.log('Showing Mission Proposals'); // Debug log
+                    document.getElementById('dashboard-content').classList.add('hidden');
+                    document.getElementById('mission-proposals-tab').classList.remove('hidden');
+                } else {
+                    console.log('Showing Dashboard'); // Debug log
+                    document.getElementById('dashboard-content').classList.remove('hidden');
+                    document.getElementById('mission-proposals-tab').classList.add('hidden');
+                }
+                
+                updateAudienceView();
             });
         });
-
-        // AI Icon interactive effect
-        const aiIcon = document.querySelector('.ai-icon');
-        aiIcon.addEventListener('mouseenter', () => {
-            aiIcon.style.transform = 'scale(1.1) rotate(10deg)';
-            aiIcon.style.transition = 'all 0.3s ease';
+        
+        // Close detailed cards button
+        document.getElementById('close-detailed-cards').addEventListener('click', () => {
+            hideDetailedCards();
         });
-
-        aiIcon.addEventListener('mouseleave', () => {
-            aiIcon.style.transform = 'scale(1) rotate(0deg)';
+        
+        // Mission cards click functionality
+        document.querySelectorAll('.mission-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const missionId = card.getAttribute('data-mission');
+                if (missionId) {
+                    showMissionDetails(missionId);
+                }
+            });
         });
-    </script>
+        
+        // Navbar functionality
+        initializeNavbar();
+    }
+    
+    function initializeNavbar() {
+        const mobileMenuBtn = document.querySelector('.navbar__mobile-menu-btn');
+        const sidenav = document.getElementById('mySidenav');
+        const closeNavBtn = document.getElementById('closeNavBtn');
+        
+        // Open sidebar
+        mobileMenuBtn.addEventListener('click', () => {
+            sidenav.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close sidebar
+        function closeSidebar() {
+            sidenav.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        
+        closeNavBtn.addEventListener('click', closeSidebar);
+        
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (sidenav.classList.contains('open') && 
+                !sidenav.contains(e.target) && 
+                !mobileMenuBtn.contains(e.target)) {
+                closeSidebar();
+            }
+        });
+        
+        // Close sidebar when clicking on links
+        document.querySelectorAll('.sidenav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.navbar__link, .sidenav-link').forEach(l => {
+                    l.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Also update the corresponding link in the navbar
+                const linkText = link.textContent.trim();
+                const desktopLink = document.querySelector(`.navbar__link:contains("${linkText}")`);
+                if (desktopLink) desktopLink.classList.add('active');
+                
+                closeSidebar();
+            });
+        });
+        
+        // Navbar link active state
+        document.querySelectorAll('.navbar__link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.navbar__link, .sidenav-link').forEach(l => {
+                    l.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Also update the corresponding link in the sidebar
+                const linkText = link.textContent.trim();
+                const sidebarLink = document.querySelector(`.sidenav-link:contains("${linkText}")`);
+                if (sidebarLink) sidebarLink.classList.add('active');
+            });
+        });
+        
+        // Logout button functionality
+        const logoutBtn = document.querySelector('.logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                // Add logout functionality here
+                console.log('Logout clicked');
+            });
+        }
+    }
+    
+    function handleYearSelect(year) {
+        // Filter papers by both year and current classification (if any is selected)
+        let filteredPapers;
+        
+        if (currentClassification) {
+            // Show papers from selected year AND selected classification
+            filteredPapers = papersData.filter(p => 
+                p.year == year && p.classification === currentClassification
+            );
+        } else {
+            // If no classification is selected, show all papers from that year
+            filteredPapers = papersData.filter(p => p.year == year);
+        }
+        
+        // Update the title based on whether classification is selected
+        let title;
+        if (currentClassification) {
+            title = `Research Papers Published in ${year} - ${currentClassification}`;
+        } else {
+            title = `Research Papers Published in ${year}`;
+        }
+        
+        showDetailedCards(filteredPapers, title);
+    }
+    
+    function showDetailedCards(papers, title) {
+        const detailedSection = document.getElementById('detailed-cards-section');
+        const titleElement = document.getElementById('detailed-cards-title');
+        const container = document.getElementById('detailed-cards-container');
+        
+        titleElement.textContent = title;
+        container.innerHTML = '';
+        
+        papers.forEach((paper, index) => {
+            const card = createDetailedCard(paper, index);
+            container.appendChild(card);
+        });
+        
+        detailedSection.classList.remove('hidden');
+        
+        // Cards appear without animation
+    }
+    
+    function hideDetailedCards() {
+        const detailedSection = document.getElementById('detailed-cards-section');
+        detailedSection.classList.add('hidden');
+    }
+    
+    function createDetailedCard(paper, index) {
+        const card = document.createElement('div');
+        card.className = 'detailed-card';
+        
+        // Truncate long text
+        const truncateText = (text, maxLength) => {
+            if (!text || text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        };
+        
+        const truncatedTitle = truncateText(paper.title, 80);
+        const truncatedAbstract = truncateText(paper.abstract, 200);
+        const truncatedAuthors = truncateText(paper.authors, 60);
+        
+        card.innerHTML = `
+            <div class="detailed-card-title">${truncatedTitle}</div>
+            <div class="detailed-card-meta">
+                <span class="detailed-card-year">${paper.year}</span>
+                <span class="detailed-card-classification">${paper.classification}</span>
+            </div>
+            <div class="detailed-card-abstract">${truncatedAbstract || 'No abstract available'}</div>
+            <div class="detailed-card-authors">${truncatedAuthors || 'Author not specified'}</div>
+            <div class="detailed-card-journal">${paper.journal || 'Journal not specified'}</div>
+        `;
+        
+        // Add click event to show full paper details
+        card.addEventListener('click', () => {
+            showPaperDetails(paper);
+        });
+        
+        return card;
+    }
+    
+    function showPaperDetails(paper) {
+        // Create modal or detailed view for individual paper
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+        modal.innerHTML = `
+            <div class="bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
+                <div class="flex justify-between items-start mb-6">
+                    <h2 class="text-2xl font-bold text-white">${paper.title}</h2>
+                    <button class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-400 mb-3">Research Information</h3>
+                        <div class="space-y-3 text-gray-300">
+                            <div><strong class="text-white">Year:</strong> ${paper.year}</div>
+                            <div><strong class="text-white">Classification:</strong> ${paper.classification}</div>
+                            <div><strong class="text-white">Journal:</strong> ${paper.journal || 'Not specified'}</div>
+                            <div><strong class="text-white">Authors:</strong> ${paper.authors || 'Not specified'}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-green-400 mb-3">Results</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">${paper.results || 'No results available'}</p>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-purple-400 mb-3">Scientific Advancement</h3>
+                    <p class="text-gray-300 leading-relaxed">${paper.scientificAdvancement || 'No scientific advancement information available'}</p>
+                </div>
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-yellow-400 mb-3">Abstract</h3>
+                    <p class="text-gray-300 leading-relaxed">${paper.abstract || 'No abstract available'}</p>
+                </div>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-red-400 mb-3">Gaps</h3>
+                        <div class="text-gray-300 text-sm leading-relaxed gaps-content">${processPaperReferences(paper.gaps || 'No gaps identified')}</div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-purple-400 mb-3">Consensus Points</h3>
+                        <div class="text-gray-300 text-sm leading-relaxed consensus-content">${processPaperReferences(paper.consensus || 'No consensus identified')}</div>
+                    </div>
+                </div>
+                ${paper.osdrData ? `
+                <div class="osdr-section">
+                    <h3 class="osdr-title">🔗 Data Sources</h3>
+                    <a href="${paper.osdrData}" target="_blank" class="osdr-link">
+                        <span>View on OSDR (Open Science Data Repository)</span>
+                    </a>
+                </div>
+                ` : ''}
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Add click event listeners to paper references in modal
+        setTimeout(() => {
+            modal.querySelectorAll('.paper-reference').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const paperId = parseInt(link.getAttribute('data-paper-id'));
+                    const referencedPaper = papersData.find(p => p.id === paperId);
+                    if (referencedPaper) {
+                        // Close current modal
+                        document.body.removeChild(modal);
+                        // Open new modal for referenced paper
+                        showPaperDetails(referencedPaper);
+                    }
+                });
+            });
+        }, 100);
+        
+        // Close modal events
+        modal.querySelector('button').addEventListener('click', () => {
+            document.body.removeChild(modal);
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                document.body.removeChild(modal);
+            }
+        });
+    }
+    // Start loading data when DOM is ready
+    loadPapersData();
+});
+</script>
+
 </body>
-
 </html>
